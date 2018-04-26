@@ -1,4 +1,5 @@
-﻿using API.Helpers;
+﻿using API.Auth;
+using API.Helpers;
 using API.Models;
 using Domain.Context;
 using Domain.Entity;
@@ -31,6 +32,8 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<BackendContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSingleton<IJwtFactory, JwtFactory>();
 
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
 
@@ -98,6 +101,7 @@ namespace API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
