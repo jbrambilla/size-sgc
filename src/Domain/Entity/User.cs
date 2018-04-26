@@ -9,15 +9,14 @@ namespace Domain.Entity
 {
     public class User : IdentityUser
     {
+        public User()
+        {
+            CreatedAt = UpdatedAt = DateTime.Now;
+        }
+
         public string Name { get; set; }
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-
-        //public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
-        //{
-        //    var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-        //    return userIdentity;
-        //}
     }
 }
