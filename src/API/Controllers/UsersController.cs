@@ -37,12 +37,5 @@ namespace API.Controllers
 
             return new OkObjectResult("Account created");
         }
-
-        [HttpGet]
-        [Route("api/users")]
-        public IActionResult Get()
-        {
-            return new OkObjectResult(new { a = 1, b = 2, c = 3 });
-        }
     }
 }
