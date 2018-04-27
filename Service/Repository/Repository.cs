@@ -5,93 +5,47 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.Repository
 {
-    public class Repository<T> : BaseRepository, IRepository<T> where T : class
+    public class Repository<TEntity> : IRepository<TEntity>
+        where TEntity : class
     {
-        private DbSet<T> _entities;
+        private readonly BackendContext _dbContext;
 
-        public Repository(BackendContext context) : base(context) { }
-
-        private DbSet<T> Entities
+        public Repository(BackendContext dbContext)
         {
-            get
-            {
-                if (_entities == null)
-                {
-                    _entities = Context.Set<T>();
-                }
-                return _entities;
-            }
+            _dbContext = dbContext;
         }
 
-        public T GetById(object id)
+        public IQueryable<TEntity> GetAll()
         {
-            var entity = Entities.Find(id);
-
-            return entity;
+            return _dbContext.Set<TEntity>().AsNoTracking();
         }
 
-        public virtual void Insert(T entity)
+        public async Task<TEntity> GetById(int id)
         {
-            if (entity == null)
-                throw new ArgumentNullException("entity");
-
-            Entities.Add(entity);
+            return await _dbContext.Set<TEntity>().FindAsync(id);
         }
 
-        public virtual void Insert(IEnumerable<T> entities)
+        public async Task Create(TEntity entity)
         {
-            if (entities == null)
-                throw new ArgumentNullException("entity");
-
-            Context.Set<T>().AddRange(entities);
+            await _dbContext.Set<TEntity>().AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Update(T entity)
+        public async Task Update(TEntity entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException("entity");
-
-            Context.Entry(entity).State = EntityState.Modified;
+            _dbContext.Set<TEntity>().Update(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(T entity)
+        public async Task Delete(int id)
         {
-            if (entity == null)
-                throw new ArgumentNullException("entity");
-
-            Context.Entry(entity).State = EntityState.Deleted;
-        }
-
-        public IQueryable<T> List
-        {
-            get { return this.Entities; }
-        }
-
-        public void Attach(object entity)
-        {
-            if (entity != null)
-                Context.Entry(entity).State = EntityState.Unchanged;
-        }
-
-        public void SetObjectState(object entity, EntityState state)
-        {
-            if (entity != null)
-                Context.Entry(entity).State = state;
-        }
-
-        public void SaveChanges()
-        {
-            try
-            {
-                Context.SaveChanges();
-            }
-            catch (Exception dbEx)
-            {
-                throw dbEx;
-            }
+            var entity = await _dbContext.Set<TEntity>().FindAsync(id);
+            _dbContext.Set<TEntity>().Remove(entity);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

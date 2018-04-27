@@ -1,18 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
-    public interface IRepository<T> where T : class
+    
+    public interface IRepository<TEntity> where TEntity : class
     {
-        T GetById(object id);
-        void Insert(T entity);
-        void Update(T entity);
-        void Delete(T entity);
-        IQueryable<T> List { get; }
-        void Attach(object entity);
-        void SetObjectState(object entity, EntityState state);
-        void SaveChanges();
+        IQueryable<TEntity> GetAll();
+
+        Task<TEntity> GetById(int id);
+
+        Task Create(TEntity entity);
+
+        Task Update(TEntity entity);
+
+        Task Delete(int id);
     }
 }
