@@ -1,6 +1,7 @@
 ﻿using API.Auth;
 using API.Helpers;
 using API.Models;
+using AutoMapper;
 using Domain.Context;
 using Domain.Entity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -90,6 +91,7 @@ namespace API
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
             builder.AddEntityFrameworkStores<BackendContext>().AddDefaultTokenProviders();
 
+            services.AddAutoMapper();
             services.AddCors();
             services.AddMvc();
         }
@@ -101,9 +103,7 @@ namespace API
             {
                 app.UseDeveloperExceptionPage();
             }
-
             
-
             app.UseAuthentication();
             app.UseCors(builder => builder
                 .AllowAnyOrigin()
