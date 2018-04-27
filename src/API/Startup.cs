@@ -90,6 +90,7 @@ namespace API
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
             builder.AddEntityFrameworkStores<BackendContext>().AddDefaultTokenProviders();
 
+            services.AddCors();
             services.AddMvc();
         }
 
@@ -101,7 +102,14 @@ namespace API
                 app.UseDeveloperExceptionPage();
             }
 
+            
+
             app.UseAuthentication();
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
             app.UseMvc();
         }
     }
