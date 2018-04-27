@@ -4,6 +4,7 @@ using API.Models;
 using AutoMapper;
 using Domain.Context;
 using Domain.Entity;
+using Domain.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Service.Repository;
 using System;
 using System.Text;
 
@@ -33,6 +35,11 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<BackendContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //Repository
+            services.AddTransient<IRepository<User>, Repository<User>>();
+            services.AddTransient<IRepository<Demand>, Repository<Demand>>();
+            services.AddTransient<IRepository<Category>, Repository<Category>>();
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
 
