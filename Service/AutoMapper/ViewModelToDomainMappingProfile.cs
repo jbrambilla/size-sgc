@@ -12,10 +12,12 @@ namespace Service.AutoMapper
                 .ForMember(d => d.Id, opt => opt.Ignore());
 
             CreateMap<DemandViewModel, Demand>()
-                .ForMember(d => d.Id, opt => opt.Ignore());
+                .ForMember(d => d.Id, opt => opt.Ignore())
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<CategoryViewModel, Category>()
-                .ForMember(d => d.Id, opt => opt.Ignore());
+                .ForMember(d => d.Id, opt => opt.Ignore())
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

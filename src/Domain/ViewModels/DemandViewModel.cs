@@ -15,7 +15,7 @@ namespace Domain.ViewModels
         public string Title { get; set; }
         public string Message { get; set; }
 
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public CategoryViewModel Category { get; set; }
     }
 }

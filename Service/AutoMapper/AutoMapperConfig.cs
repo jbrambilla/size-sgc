@@ -13,7 +13,6 @@ namespace Service.AutoMapper
             {
                 x.AddProfile<DomainToViewModelMappingProfile>();
                 x.AddProfile<ViewModelToDomainMappingProfile>();
-                x.ForAllMaps((tm, me) => me.ForAllMembers(option => option.Condition((source, destination, sourceMember) => sourceMember != null)));
             });
         }
     }
