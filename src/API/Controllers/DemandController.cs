@@ -7,11 +7,13 @@ using AutoMapper;
 using Domain.Entity;
 using Domain.Interfaces;
 using Domain.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class DemandController : Controller
     {
         private readonly IRepository<Demand> _demandRepository;

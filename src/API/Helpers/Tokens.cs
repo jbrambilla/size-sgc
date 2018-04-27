@@ -17,6 +17,7 @@ namespace API.Helpers
             {
                 id = identity.Claims.Single(c => c.Type == "id").Value,
                 auth_token = await jwtFactory.GenerateEncodedToken(userName, identity),
+                userName,
                 expires_in = (int)jwtOptions.ValidFor.TotalSeconds
             };
 
