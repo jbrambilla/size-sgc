@@ -5,6 +5,7 @@ using API.Helpers;
 using API.Models;
 using API.ViewModels;
 using Domain.Entity;
+using Domain.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
