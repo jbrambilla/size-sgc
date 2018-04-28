@@ -30,6 +30,18 @@ namespace API.Controllers
             return new OkObjectResult(categories);
         }
 
+        [HttpGet]
+        [Route("api/category/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var category = await _categoryRepository.GetById(id);
+
+            if (category == null)
+                return NotFound($"category in id {id} not found");
+
+            return new OkObjectResult(Mapper.Map<CategoryViewModel>(category));
+        }
+
         [HttpPost]
         [Route("api/category")]
         public async Task<IActionResult> Post([FromBody]CategoryViewModel model)
